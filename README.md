@@ -1,4 +1,4 @@
-# SocialMediaAuthentication Module
+# Social Media Authentication Module
 
 This is a pre-built module that provides social media authentication functionality in Laravel applications.
 
@@ -23,7 +23,9 @@ git clone https://github.com/prashanthestabit/SocialMediaAuthentication.git
 
 ``` bash
 php artisan module:enable SocialMediaAuthentication
+```
 
+``` bash
 php artisan migrate
 ```
 

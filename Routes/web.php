@@ -11,6 +11,7 @@
 |
 */
 
-Route::prefix('socialmediaauthentication')->group(function() {
-    Route::get('/', 'SocialMediaAuthenticationController@index');
-});
+// Route::prefix('socialmediaauthentication')->group(function() {
+//     Route::get('/', 'SocialMediaAuthenticationController@index');
+// });
+

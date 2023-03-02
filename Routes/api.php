@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Modules\SocialMediaAuthentication\Http\Controllers\SocialMediaAuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/socialmediaauthentication', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/socialmediaauthentication', function (Request $request) {
+//     return $request->user();
+// });
+
+
+Route::get('auth/{driver}', [SocialMediaAuthenticationController::class, 'redirectToProvider']);
+Route::get('auth/{driver}/callback', [SocialMediaAuthenticationController::class, 'handleProviderCallback']);

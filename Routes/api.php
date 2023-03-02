@@ -19,5 +19,5 @@ use Modules\SocialMediaAuthentication\Http\Controllers\SocialMediaAuthentication
 // });
 
 
-Route::get('auth/{driver}', [SocialMediaAuthenticationController::class, 'redirectToProvider']);
+Route::get('auth/{driver}', [SocialMediaAuthenticationController::class, 'redirectToProvider'])->name('auth.driver');
 Route::get('auth/{driver}/callback', [SocialMediaAuthenticationController::class, 'handleProviderCallback']);

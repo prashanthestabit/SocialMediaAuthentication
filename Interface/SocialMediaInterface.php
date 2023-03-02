@@ -14,6 +14,6 @@ interface SocialMediaInterface
 
     public function createProvider($data);
 
-    public function getUserToken($user,$provider,$driver);
+    public function getUserToken($findUser,$provider,$driver,$user);
 
 }

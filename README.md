@@ -52,3 +52,10 @@ You can check and configure them in the config/services.php file. For example, i
 ],
 ```
 Please replace the client_id, client_secret, and redirect values with your actual Google credentials.
+
+### For testing the api you can run the following command
+
+
+```bash
+php artisan test Modules/SocialMediaAuthentication/Tests/Unit/SocialMediaAuthenticationControllerTest.php
+```

@@ -51,8 +51,8 @@ class SocialMediaAuthenticationController extends Controller
         } catch (Exception $e) {
             return $this->social->responseMessage([
                 'status' => false,
-                'message' => __('socialmediaauthentication::messages.server_error'),
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+                'message' => __('socialmediaauthentication::messages.unable_auth'),
+            ], Response::HTTP_UNAUTHORIZED);
         }
     }
 
@@ -75,7 +75,7 @@ class SocialMediaAuthenticationController extends Controller
 
         $finduser = $this->social->findUser(['email' => $user->email]);
 
-        $accessToken = $this->social->getUserToken($finduser, $provider, $driver);
+        $accessToken = $this->social->getUserToken($finduser, $provider, $driver,$user);
 
         // Return a JSON response with the token
         return $this->social->responseMessage([

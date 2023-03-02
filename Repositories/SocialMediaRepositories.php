@@ -33,10 +33,10 @@ class SocialMediaRepositories implements SocialMediaInterface
      * @param array $condition
      * @return \Modules\SocialMediaAuthentication\Entities\Provider|null
      */
-    public function findProvider($condition)
-    {
-        return Provider::where($condition)->first();
-    }
+        public function findProvider($condition)
+        {
+            return Provider::where($condition)->first();
+        }
 
     /**
      * Find a User based on the given conditions.
@@ -79,30 +79,30 @@ class SocialMediaRepositories implements SocialMediaInterface
      * @param string $driver
      * @return string
      */
-    public function getUserToken($user, $provider, $driver)
+    public function getUserToken($findUser, $provider, $driver,$user)
     {
-        if ($user && $provider) {
-            Auth::login($user);
-            return JWTAuth::fromUser($user);
+        if ($findUser && $provider) {
+            Auth::login($findUser);
+            return JWTAuth::fromUser($findUser);
+        }else if ($findUser && !$provider) {
+
+            $this->saveProvider($findUser, $driver, $user);
+            return JWTAuth::fromUser($findUser);
+
+        }else{
+            $newUser = $this->createUser([
+                'name' => $user->name ?? '',
+                'email' => $user->email,
+                'password' => Hash::make('password'),
+                'created_at' => now(),
+            ]);
+
+            $this->saveProvider($newUser, $driver, $user);
+            Auth::login($newUser);
+            return JWTAuth::fromUser($newUser);
         }
 
-        if ($user && !$provider) {
 
-            $this->saveProvider($user, $driver, $user);
-            return JWTAuth::fromUser($user);
-
-        }
-
-        $newUser = $this->createUser([
-            'name' => $user->name ?? '',
-            'email' => $user->email,
-            'password' => Hash::make('password'),
-            'created_at' => now(),
-        ]);
-
-        $this->saveProvider($newUser, $driver, $user);
-        Auth::login($newUser);
-        return JWTAuth::fromUser($newUser);
     }
 
     /**

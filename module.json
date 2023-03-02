@@ -1,0 +1,11 @@
+{
+    "name": "SocialMediaAuthentication",
+    "alias": "socialmediaauthentication",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SocialMediaAuthentication\\Providers\\SocialMediaAuthenticationServiceProvider"
+    ],
+    "files": []
+}

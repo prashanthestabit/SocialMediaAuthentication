@@ -15,21 +15,21 @@ class SocialMediaAuthenticationControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $socialMediaRepository;
+    // protected $socialMediaRepository;
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    // public function setUp(): void
+    // {
+    //     parent::setUp();
 
-        $this->socialMediaRepository = Mock::mock(SocialMediaRepositories::class);
-        $this->app->instance(SocialMediaRepositories::class, $this->socialMediaRepository);
-    }
+    //     $this->socialMediaRepository = Mock::mock(SocialMediaRepositories::class);
+    //     $this->app->instance(SocialMediaRepositories::class, $this->socialMediaRepository);
+    // }
 
-    public function tearDown(): void
-    {
-        Mock::close();
-        parent::tearDown();
-    }
+    // public function tearDown(): void
+    // {
+    //     Mock::close();
+    //     parent::tearDown();
+    // }
 
         /**
      * Test the redirectToProvider method in the SocialMediaAuthenticationController
@@ -44,17 +44,6 @@ class SocialMediaAuthenticationControllerTest extends TestCase
 
         Socialite::shouldReceive('driver->stateless->redirect->getTargetUrl')
             ->andReturn($redirectUrl);
-
-        $this->socialMediaRepository->shouldReceive('responseMessage')
-            ->with([
-                'status' => true,
-                'url' => $redirectUrl,
-            ], Response::HTTP_OK)
-            ->once()
-            ->andReturn(response()->json([
-                'status' => true,
-                'url' => $redirectUrl,
-            ], Response::HTTP_OK));
 
         $response = $this->get(route('auth.driver',$driver));
 
@@ -79,17 +68,6 @@ class SocialMediaAuthenticationControllerTest extends TestCase
         // Mock the Socialite driver method to return an exception
         Socialite::shouldReceive('driver')->with('invalid_provider')->andThrow(new \InvalidArgumentException());
 
-        $this->socialMediaRepository->shouldReceive('responseMessage')
-        ->with([
-            'status' => false,
-            'message' => __('socialmediaauthentication::messages.unable_auth')
-        ], Response::HTTP_UNAUTHORIZED)
-        ->once()
-        ->andReturn(response()->json([
-            'status' => false,
-            'message' => __('socialmediaauthentication::messages.unable_auth')
-        ], Response::HTTP_UNAUTHORIZED));
-
         // Make a request to the handleProviderCallback method with an invalid provider
         $response = $this->get(route('auth.driver',$driver));
         $response->assertStatus(401);
@@ -108,36 +86,27 @@ class SocialMediaAuthenticationControllerTest extends TestCase
     public function test_handle_provider_callback_method()
     {
         $driver = 'google';
-        $user = Mock::mock();
+
         // Create a user
         $user = User::factory()->create();
-        $accessToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
 
         Socialite::shouldReceive('driver->stateless->user')
             ->andReturn($user);
 
-        $this->socialMediaRepository->shouldReceive('findProvider')
-            ->with([
-                'provider_name' => $driver,
-                'provider_id' => $user->id,
-            ])
-            ->once()
-            ->andReturn(new Provider());
+        $response = $this->get(route('auth.callback',$driver));
+        $response->assertStatus(Response::HTTP_OK);
+        $response->assertJsonStructure([
+            'status','access_token'
+        ]);
+        $response->assertJson([
+            'status' => true,
+        ]);
 
-    //     $this->socialMediaRepository->shouldReceive('findUser')
-    //         ->with([
-    //             'email' => $user->email,
-    //         ])
-    //         ->once()
-    //         ->andReturn(null);
+        //Check log table data in database
+        $this->assertDatabaseHas('users', [
+            'name' => $user->name,
+            'email' => $user->email,
+        ]);
 
-    //     $this->socialMediaRepository->shouldReceive('createUser')
-    //         ->with([
-    //             'name' => $user->name,
-    //             'email' => $user->email,
-    //             'password' => null,
-    //         ])
-    //         ->once()
-    //         ->andReturn(new \App\Models\User());
-     }
+    }
 }

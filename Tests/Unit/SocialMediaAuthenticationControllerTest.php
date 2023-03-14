@@ -15,21 +15,7 @@ class SocialMediaAuthenticationControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    // protected $socialMediaRepository;
 
-    // public function setUp(): void
-    // {
-    //     parent::setUp();
-
-    //     $this->socialMediaRepository = Mock::mock(SocialMediaRepositories::class);
-    //     $this->app->instance(SocialMediaRepositories::class, $this->socialMediaRepository);
-    // }
-
-    // public function tearDown(): void
-    // {
-    //     Mock::close();
-    //     parent::tearDown();
-    // }
 
         /**
      * Test the redirectToProvider method in the SocialMediaAuthenticationController
@@ -40,7 +26,11 @@ class SocialMediaAuthenticationControllerTest extends TestCase
     public function test_redirect_to_valid_provider_method()
     {
         $driver = 'google';
-        $redirectUrl = 'http://127.0.0.1:8000/api/auth/google/callback?code=4%2F0AWtgzh4xKNgeCvgr-b3Pi3qPZUqkltzWtCn2cgH4RlCXUzn5zX76A44t3TNxyrD2yd8wWQ&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=consent';
+        $redirectUrl = url('/').
+        '/api/auth/google/callback?
+        code=4%2F0AWtgzh4xKNgeCvgr-b3Pi3qPZUqkltzWtCn2cgH4RlCXUzn5zX76A44t3TNxyrD2yd8wWQ&scope=
+        email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+
+        https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=0&prompt=consent';
 
         Socialite::shouldReceive('driver->stateless->redirect->getTargetUrl')
             ->andReturn($redirectUrl);

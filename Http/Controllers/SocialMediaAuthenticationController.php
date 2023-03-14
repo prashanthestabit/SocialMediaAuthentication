@@ -75,7 +75,7 @@ class SocialMediaAuthenticationController extends Controller
 
         $finduser = $this->social->findUser(['email' => $user->email]);
 
-        $accessToken = $this->social->getUserToken($finduser, $provider, $driver,$user);
+        $accessToken = $this->social->getUserToken($finduser, $provider, $driver, $user);
 
         // Return a JSON response with the token
         return $this->social->responseMessage([

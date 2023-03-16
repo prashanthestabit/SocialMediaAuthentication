@@ -4,10 +4,7 @@ namespace Modules\SocialMediaAuthentication\Tests\Unit;
 
 use App\Models\User;
 use Tests\TestCase;
-use Mockery as Mock;
 use Laravel\Socialite\Facades\Socialite;
-use Modules\SocialMediaAuthentication\Entities\Provider;
-use Modules\SocialMediaAuthentication\Repositories\SocialMediaRepositories;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 
@@ -35,7 +32,7 @@ class SocialMediaAuthenticationControllerTest extends TestCase
         Socialite::shouldReceive('driver->stateless->redirect->getTargetUrl')
             ->andReturn($redirectUrl);
 
-        $response = $this->get(route('auth.driver',$driver));
+        $response = $this->get(route('auth.driver', $driver));
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJson([

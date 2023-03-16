@@ -4,7 +4,7 @@ This is a pre-built module that provides social media authentication functionali
 
 ## Installation
 
-To use this module, you need to clone the Modules folder to the root of your Laravel project. This module has been built using the [nwidart/laravel-modules](https://docs.laravelmodules.com/v10/introduction) package, so make sure you have this package installed in your project.for installation read nwidart/laravel-modules documents.
+To use this module, you need to clone the Modules folder to the root of your Laravel project. This module has been built using the [nwidart/laravel-modules](https://nwidart.com/laravel-modules/v6/installation-and-setup) package, so make sure you have this package installed in your project.for installation read nwidart/laravel-modules documents.
 
 After cloning the Modules folder, navigate to the root of your project in a terminal window and run the following command to install the necessary dependencies:
 
